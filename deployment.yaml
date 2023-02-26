@@ -1,38 +1,39 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  creationTimestamp: null
-  labels:
-    app: flaskdemo
-  name: flaskdemo
+  name: my-springboot-deployment
 spec:
-  replicas: 3
+  replicas: 4
   selector:
     matchLabels:
-      app: flaskdemo
-  strategy: {}
+      app: springboot-app
   template:
     metadata:
-      creationTimestamp: null
       labels:
-        app: flaskdemo
+        app: springboot-app
     spec:
       containers:
-      - image: raj80dockerid/test:6
-        name: flaskdemo
-        resources: {}
-status: {}
+      - name: my-springboot-app
+        image: ashiqummathoor/my-image:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8085
+# service type loadbalancer       
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: lb-service
   labels:
-    app: lb-service
+    app: springboot-app
+    k8s-app: springboot-app
+  name: springboot-app
 spec:
-  type: LoadBalancer
   ports:
-  - port: 80
-    targetPort: 5000
+  - name: http
+    port: 80
+    nodePort: 30001
+    protocol: TCP
+    targetPort: 8085
+  type: NodePort
   selector:
-    app: flaskdemo
+    app: springboot-app
