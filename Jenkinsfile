@@ -16,7 +16,7 @@ node {
                         sh "git config user.name Ashiq"
                         //sh "git switch master"
                         sh "cat deployment.yaml"
-                        sh "sed -i 's+ashiqummathoor/my-image.*+ashiqummathoor/my-image:${DOCKERTAG}+g' deployment.yaml"
+                        sh "sed -i 's+ashiqummathoor/test.*+ashiqummathoor/test:${DOCKERTAG}+g' deployment.yaml"
                         sh "cat deployment.yaml"
                         sh "git add ."
                         sh "git commit -m 'Done by Jenkins Job changemanifest: ${env.BUILD_NUMBER}'"
